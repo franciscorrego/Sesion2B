@@ -2,42 +2,36 @@ package pkg;
 
 public class Empleado {
 
-	private float salarioBase;
-	
-	float calculoNominaBruta(TipoEmpleado tipo, float ventasMes, float horasExtra) {
-		if(tipo.toString().equals("VENDEDOR")) {
-			salarioBase=2000;
-		}
-		if(tipo.toString().equals("ENCARGADO")) {
-			salarioBase=2500;
+	public static float calculoNominaBruta(TipoEmpleado tipo, float ventasMes, float horasExtra) {
+		
+		float nomina = 0; 
+		
+		if (tipo == TipoEmpleado.VENDEDOR) {
+			nomina = 2000;
+		} else if (tipo == TipoEmpleado.ENCARGADO) {
+			nomina = 2500;
+		} else {
+			throw new IllegalArgumentException("Otro tipo de empleado");
 		}
 		
-		if(tipo.toString().equals("VENDEDOR")||tipo.toString().equals("ENCARGADO")){
-
-			if(ventasMes>=1000) {
-				if(ventasMes>=1500) {
-					salarioBase+=200;
-				}else {
-					salarioBase+=100;
-				}
-			}
-			float sueldoHorasExtra = horasExtra*30;
-			salarioBase+=sueldoHorasExtra;
-			
-			return salarioBase;
-			
-		}else {
-			return -1;
+		if (ventasMes >= 1500) {
+			nomina += 200;
+		} else if (ventasMes >= 1000) {
+			nomina += 100;
 		}
+		
+		nomina += (horasExtra * 30);
+		
+		return nomina;
 	}
 	
-	float calculoNominaNeta(float nominaBruta) {
-		if(nominaBruta<2100) {
+	public static float calculoNominaNeta(float nominaBruta) {
+		if (nominaBruta < 2100) {
 			return nominaBruta;
-		}else if(nominaBruta<2500) {
-			return (float)0.85*nominaBruta;
+		} else if (nominaBruta < 2500) {
+			return nominaBruta * (1 - 0.15f);
+		} else {
+			return nominaBruta * (1 - 0.18f); 
 		}
-		return 0;
 	}
-	
 }
